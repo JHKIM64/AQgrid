@@ -23,9 +23,10 @@ def getInfo(url) :
         latitudes.append(latList.__getitem__(i).get_text())
         longitudes.append(lonList.__getitem__(i).get_text())
 
-    StationsInfo=pd.DataFrame(index=Stations,data={"Lat":latitudes,"Lon":longitudes})
+    StationsInfo=pd.DataFrame(index=Stations,data={"Lon":longitudes,"Lat":latitudes,})
     StationsInfo.index.name='Station'
     # print(StationsInfo)
+    StationsInfo.to_csv("/home/intern01/jhk/AirKorea/Korea_stninfo.csv", mode='w')
     return StationsInfo
 
 getInfo(given_url)
