@@ -92,5 +92,5 @@ def CHAQtoDF(time,dirpath, ch_dic) :
 
     return df_chAQ
 
-data=EA_AQdata('20190824','20191231',50,25,105,145,0.1,0.1)
+data=EA_AQdata('20190101','20201231',50,25,105,145,0.1,0.1)
 data.to_csv('EA_AQ_2019_2020.csv')
