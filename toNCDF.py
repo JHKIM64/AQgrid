@@ -1,14 +1,10 @@
 import pandas as pd
 import xarray as xr
-import dask.dataframe as dd
 
-df = dd.read_csv("/home/intern01/jhk/EA_AQ_2019_2020.csv", sorted_index=True, mode='r')
+df = pd.read_csv("/home/intern01/jhk/EA_AQ_2019_2020.csv")
+df["datetime"] = pd.to_datetime(df["datetime"],format="%Y-%m-%d %H:%M:%S")
+df = df.rename(columns={"datetime":"time","Lat":"latitude","Lon":"longitude"})
+df = df.set_index(['time', 'latitude', 'longitude'])
+aqxarray = df.to_xarray()
 
-def dasktoxarray(ddf, indexname='index') :
-    ds = xr.Dataset()
-    ds[indexname] = ddf.index
-    for key in ddf.columns:
-        ds[key] = (indexname, ddf[key].to_dask_array().compute_chunk_sizes())
-    return ds
-
-aqarray = dasktoxarray(df,["datetime","Lat","Lon"])
+aqxarray.to_netcdf("/home/intern01/jhk/EA_AQ_1920.nc",mode='w')
